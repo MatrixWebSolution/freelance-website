@@ -84,14 +84,28 @@ export default function Contact() {
             style={textareaStyle}
           />
 
-          <button
-            type="submit"
-            disabled={loading}
-            style={buttonStyle}
-          >
+          <button type="submit" disabled={loading} style={buttonStyle}>
             {loading ? "Sending..." : "Send Message"}
           </button>
         </form>
+
+        {/* BOTTOM CONTACT INFO */}
+        <div style={bottomContainerStyle}>
+          <div style={contactItemStyle}>
+            <span style={iconStyle}>📧</span>
+            <span>contact@matrixwebsolutions.com</span>
+          </div>
+
+          <div style={contactItemStyle}>
+            <span style={iconStyle}>📞</span>
+            <span>+91 63690 85353</span>
+          </div>
+
+          <div style={contactItemStyle}>
+            <span style={iconStyle}>📍</span>
+            <span>India</span>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -111,7 +125,7 @@ const sectionStyle = {
 const containerStyle = {
   width: "100%",
   maxWidth: "720px",
-  textAlign: "center",
+  textAlign: "center" as const,
 };
 
 const headingStyle = {
@@ -160,4 +174,30 @@ const buttonStyle = {
   border: "none",
   borderRadius: "10px",
   cursor: "pointer",
+};
+
+/* ===== Bottom Contact Styles ===== */
+
+const bottomContainerStyle = {
+  marginTop: "60px",
+  display: "flex",
+  justifyContent: "center",
+  gap: "24px",
+  flexWrap: "wrap" as const,
+};
+
+const contactItemStyle = {
+  backgroundColor: "#0c0c0c",
+  color: "#fff",
+  padding: "14px 22px",
+  borderRadius: "14px",
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  border: "1px solid #2a2a2a",
+  fontSize: "15px",
+};
+
+const iconStyle = {
+  fontSize: "18px",
 };
