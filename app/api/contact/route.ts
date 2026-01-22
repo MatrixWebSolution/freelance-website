@@ -1,60 +1,46 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Contact from "@/models/Contact";
-import { transporter } from "@/lib/mailer";
+import nodemailer from "nodemailer";
 
 export async function POST(req: Request) {
   try {
-    // 1. Parse request body
-    const { name, email, phone, message } = await req.json();
-
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
-    }
-
-    // 2. Connect to MongoDB
     await connectDB();
 
-    // 3. Save message to database
-    await Contact.create({
-      name,
-      email,
-      phone,
-      message,
+    const { name, email, phone, message } = await req.json();
+
+    if (!name || !email || !phone || !message) {
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+    }
+
+    // Save to DB
+    await Contact.create({ name, email, phone, message });
+
+    // Send email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
-    // 4. Send email notification
     await transporter.sendMail({
       from: `"Website Contact" <${process.env.EMAIL_USER}>`,
-      to: "matrixwebsolutions1@gmail.com",
-      subject: "📩 New Contact Form Submission",
+      to: process.env.EMAIL_USER,
+      subject: "New Contact Form Submission",
       html: `
-        <h2>New Contact Message</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone || "N/A"}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
+        <h3>New Contact Message</h3>
+        <p><b>Name:</b> ${name}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Phone:</b> ${phone}</p>
+        <p><b>Message:</b> ${message}</p>
       `,
     });
 
-    // 5. Success response
-    return NextResponse.json(
-      { success: true, message: "Message sent successfully" },
-      { status: 200 }
-    );
-  } catch (error: any) {
-    console.error("CONTACT API ERROR:", error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Failed to send message",
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

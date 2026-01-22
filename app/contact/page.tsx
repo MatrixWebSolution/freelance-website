@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function Contact() {
   const [form, setForm] = useState({
     name: "",
-    mobile: "",
+    phone: "",
     email: "",
     message: "",
   });
@@ -25,53 +25,29 @@ export default function Contact() {
 
       if (res.ok) {
         alert("Message sent successfully!");
-        setForm({ name: "", mobile: "", email: "", message: "" });
+        setForm({ name: "", phone: "", email: "", message: "" });
       } else {
-        alert("Something went wrong. Please try again.");
+        alert("Something went wrong");
       }
-    } catch (error) {
-      alert("Server error. Please try later.");
+    } catch {
+      alert("Server error");
     }
 
     setLoading(false);
   };
 
   return (
-    <section
-      id="contact"
-      style={{
-        backgroundColor: "#000",
-        color: "#fff",
-        minHeight: "100vh",
-        padding: "60px 20px",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "800px",
-          textAlign: "center",
-        }}
-      >
-        {/* Heading */}
-        <h2 style={headingStyle}>Contact Us</h2>
-        <p style={subTextStyle}>
+    <section style={sectionStyle}>
+      <div style={containerStyle}>
+        {/* HEADING */}
+        <h1 style={headingStyle}>Contact Us</h1>
+        <p style={subtitleStyle}>
           Have a project in mind or need support? Fill out the form below and
-          we’ll get back to you.
+          we'll get back to you.
         </p>
 
         {/* FORM */}
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            marginTop: "30px",
-          }}
-        >
+        <form onSubmit={handleSubmit} style={formStyle}>
           <input
             type="text"
             placeholder="Your Name"
@@ -84,9 +60,9 @@ export default function Contact() {
           <input
             type="tel"
             placeholder="Your Mobile Number"
-            value={form.mobile}
+            value={form.phone}
             required
-            onChange={(e) => setForm({ ...form, mobile: e.target.value })}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
             style={inputStyle}
           />
 
@@ -101,100 +77,87 @@ export default function Contact() {
 
           <textarea
             placeholder="Your Message"
-            rows={5}
+            rows={6}
             value={form.message}
             required
             onChange={(e) => setForm({ ...form, message: e.target.value })}
-            style={{
-              ...inputStyle,
-              resize: "none",
-            }}
+            style={textareaStyle}
           />
 
           <button
             type="submit"
             disabled={loading}
-            style={{
-              marginTop: "10px",
-              padding: "16px",
-              fontSize: "16px",
-              fontWeight: "600",
-              backgroundColor: "#fff",
-              color: "#000",
-              border: "none",
-              borderRadius: "8px",
-              cursor: loading ? "not-allowed" : "pointer",
-              opacity: loading ? 0.7 : 1,
-            }}
+            style={buttonStyle}
           >
             {loading ? "Sending..." : "Send Message"}
           </button>
         </form>
-
-        {/* CONTACT INFO CARDS */}
-        <div
-          style={{
-            marginTop: "50px",
-            display: "flex",
-            justifyContent: "center",
-            gap: "30px",
-            flexWrap: "wrap",
-          }}
-        >
-          <div style={infoCard}>
-            📧
-            <span>contact@matrixwebsolutions.com</span>
-          </div>
-
-          <div style={infoCard}>
-            📞
-            <span>+91 98765 43210</span>
-          </div>
-
-          <div style={infoCard}>
-            📍
-            <span>India</span>
-          </div>
-        </div>
       </div>
     </section>
   );
 }
 
-/* STYLES */
+/* ================= STYLES ================= */
+
+const sectionStyle = {
+  backgroundColor: "#000",
+  minHeight: "100vh",
+  padding: "120px 20px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+};
+
+const containerStyle = {
+  width: "100%",
+  maxWidth: "720px",
+  textAlign: "center",
+};
 
 const headingStyle = {
-  fontSize: "46px",
+  fontSize: "44px",
   fontWeight: "700",
+  color: "#fff",
   marginBottom: "12px",
 };
 
-const subTextStyle = {
+const subtitleStyle = {
   fontSize: "16px",
-  color: "#ccc",
+  color: "#bdbdbd",
+  marginBottom: "40px",
   lineHeight: "1.6",
 };
 
+const formStyle = {
+  display: "flex",
+  flexDirection: "column" as const,
+  gap: "20px",
+};
+
 const inputStyle = {
-  padding: "14px 16px",
+  width: "100%",
+  padding: "16px 18px",
   fontSize: "15px",
-  backgroundColor: "#0a0a0a",
+  backgroundColor: "#0c0c0c",
   color: "#fff",
-  border: "1px solid #333",
-  borderRadius: "8px",
+  border: "1px solid #2a2a2a",
+  borderRadius: "10px",
   outline: "none",
 };
 
-const infoCard = {
-  backgroundColor: "#0a0a0a",
-  border: "1px solid #333",
-  borderRadius: "12px",
-  padding: "18px 26px",
-  display: "flex",
-  alignItems: "center",
-  gap: "10px",
-  fontSize: "15px",
-  color: "#ccc",
-  minWidth: "220px",
-  justifyContent: "center",
+const textareaStyle = {
+  ...inputStyle,
+  resize: "none" as const,
+};
+
+const buttonStyle = {
+  marginTop: "10px",
+  padding: "18px",
+  fontSize: "16px",
+  fontWeight: "600",
+  backgroundColor: "#fff",
+  color: "#000",
+  border: "none",
+  borderRadius: "10px",
+  cursor: "pointer",
 };
