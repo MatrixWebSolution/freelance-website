@@ -17,7 +17,7 @@ export default function Services() {
   return (
     <section
       style={{
-        backgroundColor: "#000",
+        backgroundColor: "#b90000",
         color: "#fff",
         minHeight: "65vh", // 👈 slightly smaller
         paddingTop: "90px", // 👈 moved UP a bit
