@@ -45,7 +45,7 @@ export default function Services() {
             key={index}
             style={{
               padding: "24px",
-              border: "1px solid #333",
+              border: "1px solid #0a0a0a",
               borderRadius: "14px",
               fontSize: "18px",
               backgroundColor: "#0a0a0a",
