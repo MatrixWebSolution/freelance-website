@@ -7,6 +7,11 @@ export default function Services() {
     "Mobile App Development",
     "E-commerce Solutions",
     "Website Maintenance & Support",
+    "SEO Optimization",
+    "Content Management Systems",
+    "Custom Software Development",
+    "UI/UX Design",
+    "Digital Marketing Services",
   ];
 
   return (
